@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/wait-for",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Wait for instances to exist",
   "main": "out/init.lua",
   "scripts": {
