@@ -10,6 +10,7 @@
   },
   "keywords": ["waitfor", "wait", "await", "waitforchild"],
   "author": "sleitnick",
+  "repository": "github:Sleitnick/rbxts-wait-for",
   "license": "MIT",
   "types": "out/index.d.ts",
   "files": [
