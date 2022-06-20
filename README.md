@@ -106,6 +106,22 @@ waitForObjectValue(objectValue).then((value) => {
 });
 ```
 
+## `waitForAttribute`
+```ts
+waitForAttribute<T>(
+	instance: Instance,
+	attributeName: string,
+	timeout = DEFAULT_TIMEOUT,
+): Promise<T>
+```
+Waits fot the given attribute to exist.
+
+```ts
+waitForAttribute<string>(someInstance, "MyString").then((myStr) => {
+	print("MyString", myStr);
+});
+```
+
 ## `waitForCustom`
 ```ts
 waitForCustom<T>(

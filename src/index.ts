@@ -6,6 +6,21 @@ export enum WaitForError {
 	Destroyed = "Destroyed",
 }
 
+type AttributeValue =
+	| string
+	| boolean
+	| number
+	| UDim
+	| UDim2
+	| BrickColor
+	| Color3
+	| Vector2
+	| Vector3
+	| NumberSequence
+	| ColorSequence
+	| NumberRange
+	| Rect;
+
 function watchDestroying<T>(instance: Instance, promise: Promise<T>) {
 	return Promise.race<T>([
 		promise,
@@ -29,19 +44,19 @@ function watchDestroying<T>(instance: Instance, promise: Promise<T>) {
  * @param timeout Seconds to wait before timing out. Defaults to 60 seconds.
  * @returns Promise containing the found instance.
  */
-export function waitForChild(
+export function waitForChild<T extends Instance = Instance>(
 	parent: Instance,
 	childName: string,
 	recursive = false,
 	timeout = DEFAULT_TIMEOUT,
-): Promise<Instance> {
+): Promise<T> {
 	const child = parent.FindFirstChild(childName, recursive);
 	if (child !== undefined) {
-		return Promise.resolve(child);
+		return Promise.resolve(child as T);
 	}
 	return watchDestroying(
 		parent,
-		Promise.fromEvent(recursive ? parent.DescendantAdded : parent.ChildAdded, (c) => c.Name === childName),
+		Promise.fromEvent<T>(recursive ? parent.DescendantAdded : parent.ChildAdded, (c) => c.Name === childName),
 	).timeout(timeout);
 }
 
@@ -196,14 +211,35 @@ export function waitForPrimaryPart(model: Model, timeout = DEFAULT_TIMEOUT): Pro
  * @param timeout Seconds to wait before timing out. Defaults to 60 seconds.
  * @returns A promise containing the ObjectValue's Value.
  */
-export function waitForObjectValue(objectValue: ObjectValue, timeout = DEFAULT_TIMEOUT): Promise<Instance> {
+export function waitForObjectValue<T extends Instance = Instance>(
+	objectValue: ObjectValue,
+	timeout = DEFAULT_TIMEOUT,
+): Promise<T> {
 	const value = objectValue.Value;
 	if (value !== undefined) {
-		return Promise.resolve(value);
+		return Promise.resolve(value as T);
 	}
 	return watchDestroying(
 		objectValue,
-		Promise.fromEvent(objectValue.Changed, (v) => v !== undefined).then(() => objectValue.Value!),
+		Promise.fromEvent(objectValue.Changed, (v) => v !== undefined).then(() => objectValue.Value as T),
+	).timeout(timeout);
+}
+
+export function waitForAttribute<T extends AttributeValue>(
+	instance: Instance,
+	attributeName: string,
+	timeout = DEFAULT_TIMEOUT,
+): Promise<T> {
+	const attribute = instance.GetAttribute(attributeName);
+	if (attribute !== undefined) {
+		return Promise.resolve(attribute as T);
+	}
+	return watchDestroying(
+		instance,
+		Promise.fromEvent(
+			instance.GetAttributeChangedSignal(attributeName),
+			() => instance.GetAttribute(attributeName) !== undefined,
+		).then(() => instance.GetAttribute(attributeName) as T),
 	).timeout(timeout);
 }
 
