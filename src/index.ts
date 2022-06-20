@@ -128,7 +128,7 @@ export function waitForChildren(
 	childrenNames: string[],
 	recursive = false,
 	timeout = DEFAULT_TIMEOUT,
-) {
+): Promise<Instance[]> {
 	const all = table.create<Promise<Instance>>(childrenNames.size());
 	const destroying = table.create<RBXScriptConnection>(childrenNames.size());
 	let destroyed = false;
@@ -152,7 +152,7 @@ export function waitForChildren(
 			return Promise.reject(WaitForError.Destroyed);
 		}
 		return children;
-	});
+	}) as Promise<Instance[]>;
 }
 
 /**
