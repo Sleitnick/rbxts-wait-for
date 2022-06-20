@@ -6,21 +6,6 @@ export enum WaitForError {
 	Destroyed = "Destroyed",
 }
 
-type AttributeValue =
-	| string
-	| boolean
-	| number
-	| UDim
-	| UDim2
-	| BrickColor
-	| Color3
-	| Vector2
-	| Vector3
-	| NumberSequence
-	| ColorSequence
-	| NumberRange
-	| Rect;
-
 function watchDestroying<T>(instance: Instance, promise: Promise<T>) {
 	return Promise.race<T>([
 		promise,
