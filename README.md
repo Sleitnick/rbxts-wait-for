@@ -10,7 +10,7 @@ waitForChild(
 	parent: Instance,
 	childName: string,
 	recursive = false,
-	timeout = 60
+	timeout = 60,
 ): Promise<Instance>
 ```
 Waits for the `childName` child to exist within `parent`. Optionally, a `recursive` flag can be set to search for the child within all descendants of `parent`.
@@ -45,7 +45,7 @@ waitForChildWhichIsA(someParent, "BasePart").then((part) => {
 waitForChildOfClass<T extends keyof Instances>(
 	parent: Instance,
 	className: T,
-	timeout = DEFAULT_TIMEOUT,
+	timeout = 60,
 ): Promise<Instance>
 ```
 Waits for the given class `className` to exist within the `parent`.
@@ -62,7 +62,7 @@ waitForChildren(
 	parent: Instance,
 	childrenNames: string[],
 	recursive = false,
-	timeout = DEFAULT_TIMEOUT,
+	timeout = 60,
 ): Promise<Instance[]>
 ```
 Waits for all children `childrenNames` within `parent`. Once all children are found, a secondary check is done to make sure none of them were destroyed during the waiting process.
@@ -80,7 +80,7 @@ waitForChildren(vehicle, ["LeftWheel", "RightWheel"]).then((children) => {
 ```ts
 waitForPrimaryPart(
 	model: Model,
-	timeout = DEFAULT_TIMEOUT
+	timeout = 60,
 ): Promise<BasePart>
 ```
 Wait for the PrimaryPart of `model` to exist.
@@ -95,7 +95,7 @@ waitForPrimaryPart(someModel).then((primaryPart) => {
 ```ts
 waitForObjectValue(
 	objectValue: ObjectValue,
-	timeout = DEFAULT_TIMEOUT
+	timeout = 60,
 ): Promise<Instance>
 ```
 Waits for the value of an ObjectValue to not be `nil`/`undefined`.
@@ -110,7 +110,7 @@ waitForObjectValue(objectValue).then((value) => {
 ```ts
 waitForCustom<T>(
 	predicate: () => T | undefined,
-	timeout = DEFAULT_TIMEOUT
+	timeout = 60,
 ): Promise<T>
 ```
 Waits for the given predicate function to return a non-undefined value.
