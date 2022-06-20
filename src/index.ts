@@ -66,14 +66,14 @@ export function waitForChildWhichIsA<T extends keyof Instances>(
 	className: T,
 	recursive = false,
 	timeout = DEFAULT_TIMEOUT,
-): Promise<Instance> {
+): Promise<Instances[T]> {
 	const child = parent.FindFirstChildWhichIsA(className, recursive);
 	if (child !== undefined) {
 		return Promise.resolve(child);
 	}
 	return watchDestroying(
 		parent,
-		Promise.fromEvent(parent.ChildAdded, (c) => c.IsA(className)),
+		Promise.fromEvent<Instances[T]>(parent.ChildAdded, (c) => c.IsA(className)),
 	).timeout(timeout);
 }
 
@@ -96,14 +96,14 @@ export function waitForChildOfClass<T extends keyof Instances>(
 	parent: Instance,
 	className: T,
 	timeout = DEFAULT_TIMEOUT,
-): Promise<Instance> {
+): Promise<Instances[T]> {
 	const child = parent.FindFirstChildOfClass(className);
 	if (child !== undefined) {
 		return Promise.resolve(child);
 	}
 	return watchDestroying(
 		parent,
-		Promise.fromEvent(parent.ChildAdded, (c) => c.ClassName === className),
+		Promise.fromEvent<Instances[T]>(parent.ChildAdded, (c) => c.ClassName === className),
 	).timeout(timeout);
 }
 
