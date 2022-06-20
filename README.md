@@ -6,12 +6,12 @@ Roblox's instance tree is ever-changing during runtime due to replication, strea
 
 ## `waitForChild`
 ```ts
-waitForChild(
+waitForChild<T extends Instance = Instance>(
 	parent: Instance,
 	childName: string,
 	recursive = false,
 	timeout = 60,
-): Promise<Instance>
+): Promise<T>
 ```
 Waits for the `childName` child to exist within `parent`. Optionally, a `recursive` flag can be set to search for the child within all descendants of `parent`.
 
@@ -30,7 +30,7 @@ waitForChildWhichIsA<T extends keyof Instances>(
 	className: T,
 	recursive = false,
 	timeout = 60,
-): Promise<Instances[T]>
+): Promise<Instance>
 ```
 Waits for the superclass `className` to exist within the `parent`.
 
@@ -46,7 +46,7 @@ waitForChildOfClass<T extends keyof Instances>(
 	parent: Instance,
 	className: T,
 	timeout = 60,
-): Promise<Instances[T]>
+): Promise<Instance>
 ```
 Waits for the given class `className` to exist within the `parent`.
 
@@ -93,7 +93,7 @@ waitForPrimaryPart(someModel).then((primaryPart) => {
 
 ## `waitForObjectValue`
 ```ts
-waitForObjectValue(
+waitForObjectValue<T extends Instance = Instance>(
 	objectValue: ObjectValue,
 	timeout = 60,
 ): Promise<Instance>
