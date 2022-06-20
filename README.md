@@ -108,7 +108,7 @@ waitForObjectValue(objectValue).then((value) => {
 
 ## `waitForAttribute`
 ```ts
-waitForAttribute<T>(
+waitForAttribute<T extends AttributeValue>(
 	instance: Instance,
 	attributeName: string,
 	timeout = DEFAULT_TIMEOUT,
