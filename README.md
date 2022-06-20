@@ -30,7 +30,7 @@ waitForChildWhichIsA<T extends keyof Instances>(
 	className: T,
 	recursive = false,
 	timeout = 60,
-): Promise<Instance>
+): Promise<Instances[T]>
 ```
 Waits for the superclass `className` to exist within the `parent`.
 
@@ -46,7 +46,7 @@ waitForChildOfClass<T extends keyof Instances>(
 	parent: Instance,
 	className: T,
 	timeout = 60,
-): Promise<Instance>
+): Promise<Instances[T]>
 ```
 Waits for the given class `className` to exist within the `parent`.
 
